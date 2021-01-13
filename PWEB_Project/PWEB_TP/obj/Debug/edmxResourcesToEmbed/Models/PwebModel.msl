@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Pweb_DBModelStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="Buy">
+      <EntityTypeMapping TypeName="Pweb_DBModel.Buy">
+        <MappingFragment StoreEntitySet="Buy">
+          <ScalarProperty Name="IdCompra" ColumnName="IdCompra" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="State" ColumnName="State" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Category">
+      <EntityTypeMapping TypeName="Pweb_DBModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="IdCategory" ColumnName="IdCategory" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="Pweb_DBModel.Clients">
+        <MappingFragment StoreEntitySet="Clients">
+          <ScalarProperty Name="IdClient" ColumnName="IdClient" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="NIF" ColumnName="NIF" />
+          <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Company">
+      <EntityTypeMapping TypeName="Pweb_DBModel.Company">
+        <MappingFragment StoreEntitySet="Company">
+          <ScalarProperty Name="IdCompany" ColumnName="IdCompany" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="NIF" ColumnName="NIF" />
+          <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employee">
+      <EntityTypeMapping TypeName="Pweb_DBModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="NIF" ColumnName="NIF" />
+          <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Product">
+      <EntityTypeMapping TypeName="Pweb_DBModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="State" ColumnName="State" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Promotion">
+      <EntityTypeMapping TypeName="Pweb_DBModel.Promotion">
+        <MappingFragment StoreEntitySet="Promotion">
+          <ScalarProperty Name="IdPromo" ColumnName="IdPromo" />
+          <ScalarProperty Name="New_Price" ColumnName="New_Price" />
+          <ScalarProperty Name="Last_Price" ColumnName="Last_Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_ClientBuy" TypeName="Pweb_DBModel.FK_ClientBuy" StoreEntitySet="Buy">
+      <EndProperty Name="Clients">
+        <ScalarProperty Name="IdClient" ColumnName="Client_Id" />
+      </EndProperty>
+      <EndProperty Name="Buy">
+        <ScalarProperty Name="IdCompra" ColumnName="IdCompra" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProdCategory" TypeName="Pweb_DBModel.FK_ProdCategory" StoreEntitySet="Product">
+      <EndProperty Name="Category">
+        <ScalarProperty Name="IdCategory" ColumnName="Category_Id" />
+      </EndProperty>
+      <EndProperty Name="Product">
+        <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_EmployeeCompany" TypeName="Pweb_DBModel.FK_EmployeeCompany" StoreEntitySet="Employee">
+      <EndProperty Name="Company">
+        <ScalarProperty Name="IdCompany" ColumnName="Company_Id" />
+      </EndProperty>
+      <EndProperty Name="Employee">
+        <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProdCompany" TypeName="Pweb_DBModel.FK_ProdCompany" StoreEntitySet="Product">
+      <EndProperty Name="Company">
+        <ScalarProperty Name="IdCompany" ColumnName="Company_Id" />
+      </EndProperty>
+      <EndProperty Name="Product">
+        <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_PromoEmployee" TypeName="Pweb_DBModel.FK_PromoEmployee" StoreEntitySet="Promotion">
+      <EndProperty Name="Employee">
+        <ScalarProperty Name="IdEmployee" ColumnName="Employee_Id" />
+      </EndProperty>
+      <EndProperty Name="Promotion">
+        <ScalarProperty Name="IdPromo" ColumnName="IdPromo" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProdPromo" TypeName="Pweb_DBModel.FK_ProdPromo" StoreEntitySet="Product">
+      <EndProperty Name="Promotion">
+        <ScalarProperty Name="IdPromo" ColumnName="Promo_Id" />
+      </EndProperty>
+      <EndProperty Name="Product">
+        <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
+      </EndProperty>
+      <Condition ColumnName="Promo_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ProductBuy" TypeName="Pweb_DBModel.ProductBuy" StoreEntitySet="ProductBuy">
+      <EndProperty Name="Product">
+        <ScalarProperty Name="IdProduct" ColumnName="Buy_Id" />
+      </EndProperty>
+      <EndProperty Name="Buy">
+        <ScalarProperty Name="IdCompra" ColumnName="Product_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

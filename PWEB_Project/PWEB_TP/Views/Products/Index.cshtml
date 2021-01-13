@@ -1,0 +1,203 @@
+﻿@model IEnumerable<PWEB_TP.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (User.IsInRole("Company"))
+{
+    <h2>Index</h2>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </th>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IdProduct }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.IdProduct }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IdProduct })
+                </td>
+            </tr>
+        }
+    </table>
+
+}
+else if (User.IsInRole("Employee"))
+{
+    <h2>Index</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @if (!item.Promotion.Any())
+                    {
+                        @Html.ActionLink("Add a Promotion", "EditPromo", new { id = item.IdProduct });
+                    }
+                    @if (item.Promotion.Any())
+                    {
+                        @Html.ActionLink("Remove Promotion", "RemovePromo", new { id = item.IdProduct });
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+else if (User.IsInRole("Admin"))
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </th>
+            </tr>
+        }
+    </table>
+}
+else if (User.IsInRole("Client"))
+{
+    <h2>ClientHome</h2>
+    <script>
+    function AddToCart(item){
+        var itemId = $(item).attr("itemid");
+        var formData = new FormData();
+        formData.append("ItemId", itemId);
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            data: formData,
+            url: '/Home/AddToCart',
+            success: function (data) {
+                if (data.Success) {
+                    $('#cartItem').text("Cart(" + data.Counter + ")");
+                    location.reload();
+                }
+            }
+        });
+    }
+
+    </script>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    <input class="btn btn-primary" type="button" itemid="@item.IdProduct" onclick="AddToCart(this)" name="AddToCart" value="Add to Cart" />
+                </td>
+            </tr>
+        }
+    </table>
+
+}

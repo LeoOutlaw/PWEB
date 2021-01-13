@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("eShopping", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (Request.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Categories" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Categories", "Index", "Categories")
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Clients" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Clients", "Index", "Clients")
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Companies" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Companies", "Index", "Companies")
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Products" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Products", "Index", "Products")
+                            </li>
+                        }
+                        else if (User.IsInRole("Company"))
+                        {
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Employees" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Employees", "Index", "Employees")
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Products" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Products", "Index", "Products")
+                            </li>
+                        }
+                        else if (User.IsInRole("Client"))
+                        {
+                            <li>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    @Html.Action("Menu", "Home")
+                                </ul>
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Products" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Products", "Index", "Products")
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Buys" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("History of Buys", "Index", "Buys")
+                            </li>
+
+                        }
+                        else if (User.IsInRole("Employee"))
+                        {
+                            <li>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categories<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    @Html.Action("Menu", "Home")
+                                </ul>
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Promotions" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Campaigns", "Index", "Promotions")
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Buys" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Deliver", "Index", "Buys")
+                            </li>
+                            <li class="@(ViewContext.RouteData.Values["controller"].ToString() == "Products" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                @Html.ActionLink("Products", "Index", "Products")
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="@(ViewContext.RouteData.Values["action"].ToString() == "About" ? "active" : "")">
+                            <a href="#made-by-section">Made By</a>
+                        </li>
+                        <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Contact" ? "active" : "")">
+                            <a href="#contact-section">Contact</a>
+                        </li>
+
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

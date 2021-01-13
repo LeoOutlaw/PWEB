@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Pweb_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Buy">
+    <Key>
+      <PropertyRef Name="IdCompra" />
+    </Key>
+    <Property Name="IdCompra" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="State" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Client_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Clients" Relationship="Self.FK_ClientBuy" FromRole="Buy" ToRole="Clients" />
+    <NavigationProperty Name="Product" Relationship="Self.ProductBuy" FromRole="Buy" ToRole="Product" />
+    <Property Name="BuyDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+    <Property Name="DeliveryType" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="IdCategory" />
+    </Key>
+    <Property Name="IdCategory" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_ProdCategory" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="IdClient" />
+    </Key>
+    <Property Name="IdClient" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NIF" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IdentityId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Buy" Relationship="Self.FK_ClientBuy" FromRole="Clients" ToRole="Buy" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="IdCompany" />
+    </Key>
+    <Property Name="IdCompany" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NIF" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IdentityId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_EmployeeCompany" FromRole="Company" ToRole="Employee" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_ProdCompany" FromRole="Company" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="IdEmployee" />
+    </Key>
+    <Property Name="IdEmployee" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NIF" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IdentityId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Company_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="Self.FK_EmployeeCompany" FromRole="Employee" ToRole="Company" />
+    <NavigationProperty Name="Promotion" Relationship="Self.FK_PromoEmployee" FromRole="Employee" ToRole="Promotion" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="IdProduct" />
+    </Key>
+    <Property Name="IdProduct" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Stock" Type="Int32" Nullable="false" />
+    <Property Name="State" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Category_Id" Type="Int32" Nullable="false" />
+    <Property Name="Company_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_ProdCategory" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="Company" Relationship="Self.FK_ProdCompany" FromRole="Product" ToRole="Company" />
+    <NavigationProperty Name="Buy" Relationship="Self.ProductBuy" FromRole="Product" ToRole="Buy" />
+    <NavigationProperty Name="Promotion" Relationship="Self.ProductPromotion" FromRole="Product" ToRole="Promotion" />
+    <Property Name="OriginalPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Promotion">
+    <Key>
+      <PropertyRef Name="IdPromo" />
+    </Key>
+    <Property Name="IdPromo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Percent" Type="Int32" Nullable="false" />
+    <Property Name="Employee_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_PromoEmployee" FromRole="Promotion" ToRole="Employee" />
+    <NavigationProperty Name="Product" Relationship="Self.ProductPromotion" FromRole="Promotion" ToRole="Product" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_ClientBuy">
+    <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+    <End Role="Buy" Type="Self.Buy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="IdClient" />
+      </Principal>
+      <Dependent Role="Buy">
+        <PropertyRef Name="Client_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProdCategory">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="IdCategory" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Category_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeCompany">
+    <End Role="Company" Type="Self.Company" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="IdCompany" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Company_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProdCompany">
+    <End Role="Company" Type="Self.Company" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="IdCompany" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Company_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PromoEmployee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Promotion" Type="Self.Promotion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="IdEmployee" />
+      </Principal>
+      <Dependent Role="Promotion">
+        <PropertyRef Name="Employee_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductBuy">
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <End Role="Buy" Type="Self.Buy" Multiplicity="*" />
+  </Association>
+  <Association Name="ProductPromotion">
+    <End Role="Promotion" Type="Self.Promotion" Multiplicity="*" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="Pweb_DBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Buy" EntityType="Self.Buy" />
+    <EntitySet Name="Category" EntityType="Self.Category" />
+    <EntitySet Name="Clients" EntityType="Self.Clients" />
+    <EntitySet Name="Company" EntityType="Self.Company" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" />
+    <EntitySet Name="Product" EntityType="Self.Product" />
+    <EntitySet Name="Promotion" EntityType="Self.Promotion" />
+    <AssociationSet Name="FK_ClientBuy" Association="Self.FK_ClientBuy">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="Buy" EntitySet="Buy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProdCategory" Association="Self.FK_ProdCategory">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeCompany" Association="Self.FK_EmployeeCompany">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProdCompany" Association="Self.FK_ProdCompany">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PromoEmployee" Association="Self.FK_PromoEmployee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Promotion" EntitySet="Promotion" />
+    </AssociationSet>
+    <AssociationSet Name="ProductBuy" Association="Self.ProductBuy">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Buy" EntitySet="Buy" />
+    </AssociationSet>
+    <AssociationSet Name="ProductPromotion" Association="Self.ProductPromotion">
+      <End Role="Promotion" EntitySet="Promotion" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Pweb_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Buy">
+    <Key>
+      <PropertyRef Name="IdCompra" />
+    </Key>
+    <Property Name="IdCompra" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="State" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Client_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="IdCategory" />
+    </Key>
+    <Property Name="IdCategory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="IdClient" />
+    </Key>
+    <Property Name="IdClient" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NIF" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IdentityId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="IdCompany" />
+    </Key>
+    <Property Name="IdCompany" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NIF" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IdentityId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="IdEmployee" />
+    </Key>
+    <Property Name="IdEmployee" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NIF" Type="nvarchar(max)" />
+    <Property Name="IdentityId" Type="nvarchar(max)" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Company_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="IdProduct" />
+    </Key>
+    <Property Name="IdProduct" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Stock" Type="int" Nullable="false" />
+    <Property Name="State" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Category_Id" Type="int" Nullable="false" />
+    <Property Name="Company_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductBuy">
+    <Key>
+      <PropertyRef Name="Buy_Id" />
+      <PropertyRef Name="Product_Id" />
+    </Key>
+    <Property Name="Buy_Id" Type="int" Nullable="false" />
+    <Property Name="Product_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductPromotion">
+    <Key>
+      <PropertyRef Name="Product_Id" />
+      <PropertyRef Name="Promotion_Id" />
+    </Key>
+    <Property Name="Product_Id" Type="int" Nullable="false" />
+    <Property Name="Promotion_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Promotion">
+    <Key>
+      <PropertyRef Name="IdPromo" />
+    </Key>
+    <Property Name="IdPromo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="New_Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Last_Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Percent" Type="int" Nullable="false" />
+    <Property Name="Employee_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Buy_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="ProductBuy" Type="Self.ProductBuy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="IdProduct" />
+      </Principal>
+      <Dependent Role="ProductBuy">
+        <PropertyRef Name="Buy_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClientBuy">
+    <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+    <End Role="Buy" Type="Self.Buy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="IdClient" />
+      </Principal>
+      <Dependent Role="Buy">
+        <PropertyRef Name="Client_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeCompany">
+    <End Role="Company" Type="Self.Company" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="IdCompany" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Company_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProdCategory">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="IdCategory" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Category_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProdCompany">
+    <End Role="Company" Type="Self.Company" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="IdCompany" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Company_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Buy">
+    <End Role="Buy" Type="Self.Buy" Multiplicity="1" />
+    <End Role="ProductBuy" Type="Self.ProductBuy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buy">
+        <PropertyRef Name="IdCompra" />
+      </Principal>
+      <Dependent Role="ProductBuy">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Promotion">
+    <End Role="Promotion" Type="Self.Promotion" Multiplicity="1" />
+    <End Role="ProductPromotion" Type="Self.ProductPromotion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Promotion">
+        <PropertyRef Name="IdPromo" />
+      </Principal>
+      <Dependent Role="ProductPromotion">
+        <PropertyRef Name="Promotion_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PromoEmployee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Promotion" Type="Self.Promotion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="IdEmployee" />
+      </Principal>
+      <Dependent Role="Promotion">
+        <PropertyRef Name="Employee_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Promotion_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="ProductPromotion" Type="Self.ProductPromotion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="IdProduct" />
+      </Principal>
+      <Dependent Role="ProductPromotion">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Pweb_DBModelStoreContainer">
+    <EntitySet Name="Buy" EntityType="Self.Buy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductBuy" EntityType="Self.ProductBuy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductPromotion" EntityType="Self.ProductPromotion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Promotion" EntityType="Self.Promotion" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Buy_Product" Association="Self.FK_Buy_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductBuy" EntitySet="ProductBuy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClientBuy" Association="Self.FK_ClientBuy">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="Buy" EntitySet="Buy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeCompany" Association="Self.FK_EmployeeCompany">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProdCategory" Association="Self.FK_ProdCategory">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProdCompany" Association="Self.FK_ProdCompany">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Buy" Association="Self.FK_Product_Buy">
+      <End Role="Buy" EntitySet="Buy" />
+      <End Role="ProductBuy" EntitySet="ProductBuy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Promotion" Association="Self.FK_Product_Promotion">
+      <End Role="Promotion" EntitySet="Promotion" />
+      <End Role="ProductPromotion" EntitySet="ProductPromotion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PromoEmployee" Association="Self.FK_PromoEmployee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Promotion" EntitySet="Promotion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Promotion_Product" Association="Self.FK_Promotion_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductPromotion" EntitySet="ProductPromotion" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

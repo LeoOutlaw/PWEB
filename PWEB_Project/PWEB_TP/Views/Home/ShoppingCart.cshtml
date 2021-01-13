@@ -1,0 +1,92 @@
+﻿@model PWEB_TP.Models.ViewModels.CartDTO
+@{
+    ViewBag.Title = "ShoppingCart";
+}
+
+<h2>ShoppingCart</h2>
+
+<script>
+    function RemoveFromCart(item) {
+        var itemId = $(item).attr("itemid");
+        var formData = new FormData();
+        formData.append("ItemId", itemId);
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            data: formData,
+            url: '/Home/RemoveFromCart',
+            success: function (data) {
+                if (data.Success) {
+                    $('#cartItem').text("Cart(" + data.Counter + ")");
+                    location.reload();
+                } else {
+                    $('#cartItem').text("Cart(" + data.Counter + ")");
+                    location.reload();
+                }
+            }
+        });
+    }
+</script>
+
+<table class="table-condensed">
+    @if (Model == null)
+    {
+    <tr>
+        <td>
+            Add something to the cart!
+        </td>
+    </tr>
+    
+    }
+    else
+    {
+        foreach (var item in Model.ListProducts)
+        {
+            <tr>
+                <td style="text-align: right">
+                    @item.Name
+                </td>
+                <td style="text-align: right">
+                    @item.Quantity.ToString("#,##0")
+                </td>
+                <td style="text-align: right">
+                    @item.Price.ToString("#,##0.00")
+                </td>
+                <td style="text-align: right">
+                    @item.TotalPrice.ToString("#,##0.00")
+                </td>
+                <td>
+                    <input class="btn btn-primary" type="button" itemid="@item.ProdcutID" onclick="RemoveFromCart(this)" name="Remove" value="Remove" />
+                </td>
+            </tr>
+        }
+    <tr style="border-top: 2px solid">
+        <td colspan="4" style="text-align: right">
+            <h3>Total Amount</h3>
+        </td>
+        <td>
+            <h3>@Model.Price.ToString("#,##0.00")</h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @if (Model.ListProducts.Count != 0)
+            {
+                @Html.ActionLink("Continuar Compra", "ClientHome", "Home")
+            }
+        </td>
+        <td>
+            @if (Model.ListProducts.Count != 0)
+            {
+                @Html.ActionLink("Avançar para Compra", "Create", "Buys")
+            }
+        </td>
+    </tr>
+}
+    
+
+</table>
+

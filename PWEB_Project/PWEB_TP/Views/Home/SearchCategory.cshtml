@@ -1,0 +1,98 @@
+﻿@model IEnumerable<PWEB_TP.Models.Product>
+
+@{
+    ViewBag.Title = "SearchCategory";
+}
+
+@if (User.IsInRole("Client"))
+{
+    <script>
+        function AddToCart(item) {
+            var itemId = $(item).attr("itemid");
+            var formData = new FormData();
+            formData.append("ItemId", itemId);
+
+            $.ajax({
+                async: true,
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                data: formData,
+                url: '/Home/AddToCart',
+                success: function (data) {
+                    if (data.Success) {
+                        $('#cartItem').text("Cart(" + data.Counter + ")");
+                        location.reload();
+                    }
+                }
+            });
+        }
+
+    </script>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    <input class="btn btn-primary" type="button" itemid="@item.IdProduct" onclick="AddToCart(this)" name="AddToCart" value="Add to Cart" />
+                </td>
+            </tr>
+        }
+    </table>
+
+}
+else if (User.IsInRole("Employee"))
+{
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+            </tr>
+        }
+    </table>
+
+}
+
+
